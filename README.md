@@ -8,16 +8,16 @@ Follow these instructions to rebind your capslock key to search Perplexity inste
 sudo apt install xbindkeys zenity xdotool xclip
 ```
 
-2. Copy the `perplexity-search.sh` script to some directory, e.g. `~/dev/capslock-rebind/perplexity-search.sh`
+2. Clone this repo to some directory, e.g. `~/dev/`
 
 3. Make script executable:
 ```bash
-chmod +x ~/dev/capslock-rebind/perplexity-search.sh
+chmod +x ~/dev/ubuntu-capslock-perplexity/perplexity-search.sh
 ```
 
 4. Create `~/.xbindkeysrc` and add these lines:
 ```
-"~/dev/capslock-rebind/perplexity-search.sh"
+"~/dev/ubuntu-capslock-perplexity/perplexity-search.sh"
   Caps_Lock
 ```
 
