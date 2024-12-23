@@ -20,19 +20,20 @@ if [ -n "$query" ]; then
     # Get the current desktop number
     current_desktop=$(xdotool get_desktop)
     
-    # Find Chrome windows only on the current desktop
-    chrome_window=$(xdotool search --desktop $current_desktop --class "google-chrome" | head -n1)
+    # Find windows of the OS's default browser, only on the current desktop
+    browser_name=$(xdg-settings get default-web-browser | sed 's/.desktop//')
+    browser_window=$(xdotool search --desktop $current_desktop --class $browser_name | head -n1)
     
-    if [ -n "$chrome_window" ]; then
+    if [ -n "$browser_window" ]; then
         # Activate the found window
-        xdotool windowactivate $chrome_window
+        xdotool windowactivate $browser_window
         sleep 0.1  # Small delay to ensure window activation
         xdotool key ctrl+t
         sleep 0.1  # Small delay to ensure new tab is ready
         xdotool key ctrl+v
         xdotool key Return
     else
-        # If no Chrome window found on current desktop, start a new one
-        google-chrome "https://www.perplexity.ai/?q=$queryUrlEncoded" &
+        # If no browser window found on current desktop, start a new one
+        $browser_name "https://www.perplexity.ai/?q=$queryUrlEncoded" &
     fi
 fi
