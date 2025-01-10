@@ -14,6 +14,10 @@ fi
 
 query=$(zenity --entry --title "Perplexity Search" --text "Enter your search query:" --width=600)
 if [ -n "$query" ]; then
+    # Log the query with timestamp
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "$timestamp | $query" >> ~/perplexity-queries.log
+    
     queryUrlEncoded=$(echo -n "$query" | python3 -c 'from sys import stdin; from urllib.parse import quote; print(quote(stdin.read().strip()))')
     echo "https://www.perplexity.ai/?q=$queryUrlEncoded" | xclip -selection clipboard
 
