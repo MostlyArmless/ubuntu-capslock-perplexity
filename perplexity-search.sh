@@ -19,25 +19,7 @@ if [ -n "$query" ]; then
     echo "$timestamp | $query" >> ~/perplexity-queries.log
     
     queryUrlEncoded=$(echo -n "$query" | python3 -c 'from sys import stdin; from urllib.parse import quote; print(quote(stdin.read().strip()))')
-    echo "https://www.perplexity.ai/?q=$queryUrlEncoded" | xclip -selection clipboard
-
-    # Get the current desktop number
-    current_desktop=$(xdotool get_desktop)
-    
-    # Find windows of the OS's default browser, only on the current desktop
-    browser_name=$(xdg-settings get default-web-browser | sed 's/.desktop//')
-    browser_window=$(xdotool search --desktop $current_desktop --class $browser_name | head -n1)
-    
-    if [ -n "$browser_window" ]; then
-        # Activate the found window
-        xdotool windowactivate $browser_window
-        sleep 0.1  # Small delay to ensure window activation
-        xdotool key ctrl+t
-        sleep 0.1  # Small delay to ensure new tab is ready
-        xdotool key ctrl+v
-        xdotool key Return
-    else
-        # If no browser window found on current desktop, start a new one
-        $browser_name "https://www.perplexity.ai/?q=$queryUrlEncoded" &
-    fi
+    url="https://www.perplexity.ai/?q=$queryUrlEncoded"
+    echo $url | xclip -selection clipboard
+    xdg-open "$url" &
 fi
